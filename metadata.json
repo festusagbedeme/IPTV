@@ -1,0 +1,6 @@
+{
+  "name": "Stalker IPTV Player",
+  "description": "An advanced Android-styled Stalker portal IPTV media player with AI-driven EPG web grounding, real-time buffer configuration, and advanced stream data compression simulator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
