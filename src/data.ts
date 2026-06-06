@@ -1,7 +1,9 @@
 import { IPTVCategory, StreamItem, PortalDetails } from './types';
 
 export const EMBEDDED_PORTAL: PortalDetails = {
+  id: "apex-embedded",
   name: "Apex Embedded IPTV",
+  type: 'stalker',
   url: "http://mag.apex-iptv.com/c/",
   mac: "00:1A:79:BC:22:DF",
   isActive: true,
@@ -11,9 +13,20 @@ export const EMBEDDED_PORTAL: PortalDetails = {
 export const DEFAULT_PORTALS: PortalDetails[] = [
   EMBEDDED_PORTAL,
   {
+    id: "custom-stalker-1",
     name: "My Custom IPTV Portal",
+    type: 'stalker',
     url: "http://customstalker.xyz:8080/c/",
     mac: "00:1A:79:AA:BB:CC",
+    isActive: false
+  },
+  {
+    id: "premium-xtream",
+    name: "Xtream Gold Servers",
+    type: 'xtream',
+    xtreamHost: "http://xtreamdns.club:8080",
+    xtreamUsername: "premium_subscriber",
+    xtreamPassword: "xyz_stream_key",
     isActive: false
   }
 ];

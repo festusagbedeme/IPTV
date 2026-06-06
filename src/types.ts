@@ -1,9 +1,24 @@
+export type PortalType = 'stalker' | 'xtream' | 'm3u_url' | 'm3u_file';
+
 export interface PortalDetails {
+  id: string;
   name: string;
-  url: string;
-  mac: string;
+  type: PortalType;
   isActive: boolean;
   isEmbedded?: boolean;
+  
+  // Stalker fields
+  url?: string;
+  mac?: string;
+  
+  // Xtream Codes fields
+  xtreamHost?: string;
+  xtreamUsername?: string;
+  xtreamPassword?: string;
+  
+  // M3U fields
+  m3uUrl?: string;
+  m3uFileName?: string;
 }
 
 export type IPTVMenuType = 'live' | 'movies' | 'series' | 'radio' | 'settings';

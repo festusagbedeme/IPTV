@@ -1,22 +1,46 @@
 import React from 'react';
 import { Tv, Film, Disc, Radio, Settings, HelpCircle, HardDrive, Shield } from 'lucide-react';
-import { IPTVMenuType } from '../types';
+import { IPTVMenuType, PortalDetails } from '../types';
 
 interface SidebarProps {
   activeTab: IPTVMenuType;
   setActiveTab: (tab: IPTVMenuType) => void;
-  portalName: string;
-  macAddress: string;
+  activePortal: PortalDetails;
 }
 
-export default function Sidebar({ activeTab, setActiveTab, portalName, macAddress }: SidebarProps) {
+export default function Sidebar({ activeTab, setActiveTab, activePortal }: SidebarProps) {
   const menuItems = [
     { id: 'live' as IPTVMenuType, label: 'Live TV', icon: Tv, desc: 'Internet TV Channels' },
     { id: 'movies' as IPTVMenuType, label: 'Movies', icon: Film, desc: 'VOD Movies Selection' },
     { id: 'series' as IPTVMenuType, label: 'TV Series', icon: HardDrive, desc: 'Multi-episode Series' },
     { id: 'radio' as IPTVMenuType, label: 'Radio FM', icon: Radio, desc: 'Global Radio Broadcasts' },
-    { id: 'settings' as IPTVMenuType, label: 'Portal Details', icon: Settings, desc: 'MAC & Stalker Config' },
+    { id: 'settings' as IPTVMenuType, label: 'Portal Details', icon: Settings, desc: 'IPTV / M3U / Xtream' },
   ];
+
+  const renderActiveSubtitle = () => {
+    switch (activePortal.type) {
+      case 'stalker':
+        return `MAC: ${activePortal.mac || 'None'}`;
+      case 'xtream':
+        return `User: ${activePortal.xtreamUsername || 'None'}`;
+      case 'm3u_url':
+        return `Remote M3U Parser`;
+      case 'm3u_file':
+        return activePortal.m3uFileName ? `M3U: ${activePortal.m3uFileName}` : `Local M3U File`;
+      default:
+        return 'Connected';
+    }
+  };
+
+  const renderBadgeType = () => {
+    const typeLabels: Record<string, string> = {
+      stalker: 'STALKER MAG',
+      xtream: 'XTREAM CODES',
+      m3u_url: 'M3U URL',
+      m3u_file: 'M3U FILE'
+    };
+    return typeLabels[activePortal.type] || 'IPTV';
+  };
 
   return (
     <aside className="w-68 bg-slate-900 border-r border-slate-800 flex flex-col justify-between p-4 h-full" id="iptv-sidebar">
@@ -32,13 +56,16 @@ export default function Sidebar({ activeTab, setActiveTab, portalName, macAddres
           </div>
         </div>
 
-        {/* Current Active Stalker Portal HUD Badge */}
+        {/* Current Active Portal HUD Badge */}
         <div className="bg-slate-950/80 p-3 rounded-lg border border-slate-800 space-y-1">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-teal-400">
             <Shield className="w-3 h-3" />
-            <span className="truncate max-w-[130px]">{portalName}</span>
+            <span className="truncate max-w-[130px]">{activePortal.name}</span>
           </div>
-          <p className="text-[9px] text-slate-400 font-mono italic max-w-full overflow-hidden truncate">MAC: {macAddress}</p>
+          <div className="flex items-center justify-between text-[9px] font-mono">
+            <span className="text-indigo-400 font-bold tracking-wider">{renderBadgeType()}</span>
+            <span className="text-slate-400 truncate max-w-[110px]" title={renderActiveSubtitle()}>{renderActiveSubtitle()}</span>
+          </div>
         </div>
 
         {/* Navigation items mimicking continuous flow menu */}
